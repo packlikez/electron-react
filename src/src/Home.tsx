@@ -21,7 +21,7 @@ const Home = () => {
     <div>
       {questions.map((q, index) => {
         return (
-          <Question>
+          <Question key={q.text + index}>
             <QuestionNo>No. {index + 1}</QuestionNo>
             <QuestionText>{q.text}</QuestionText>
             <Button variant="contained" onClick={create(q.answer)}>
@@ -37,8 +37,8 @@ const Home = () => {
 const Question = styled.div`
   display: flex;
   flex-direction: column;
-  padding:8px;
-  gap:8px;
+  padding: 8px;
+  gap: 8px;
 `;
 
 const QuestionNo = styled.span`
