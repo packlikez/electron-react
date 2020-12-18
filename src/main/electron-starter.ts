@@ -1,13 +1,10 @@
-const electron = require("electron");
-// Module to control application life.
-const app = electron.app;
-const ipcMain = electron.ipcMain;
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
+import { app, ipcMain, BrowserWindow } from "electron";
+import config from "../config";
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+type window = BrowserWindow | null;
+let mainWindow: window;
 
 function createWindow() {
   // Create the browser window.
@@ -20,7 +17,7 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL("http://localhost:3000");
+  mainWindow.loadURL(config.renderUrl);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -35,8 +32,8 @@ function createWindow() {
 
   // Reusable new windows
   ipcMain.handle("newWindow", (event, args) => {
-    let subWindow = new BrowserWindow({
-      parent: mainWindow,
+    let subWindow: window = new BrowserWindow({
+      parent: mainWindow || undefined,
       width: 500,
       height: 500,
       webPreferences: {
